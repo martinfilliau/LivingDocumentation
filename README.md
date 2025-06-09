@@ -33,6 +33,20 @@ public class DocumentationBuilder
 
 The attribute can be used on a class, a method or a property.
 
+### Highlight areas of a codebase which need special security considerations
+
+Objective: warn the developer, and the code reviewer that an area is _known_ to be security sensitive.
+
+```C#
+[SecurityCritical("Parses raw input from the user")
+public void Parse(string input)
+{
+    // ...
+```
+
 ### More tools to come
 
 ## Generation
+
+See `LivingDocumentation.Cli` to get a tool analysing a code base from a `.csproj` or `.sln` file, and generate a Markdown
+report. This can be put in a CI context.
