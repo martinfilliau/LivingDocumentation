@@ -14,27 +14,34 @@ var inputPath = args[0];
 var outputPath = args[1];
 
 using var workspace = MSBuildWorkspace.Create();
-Project project;
+List<Project> projects = [];
 
 if (inputPath.EndsWith(".sln", StringComparison.OrdinalIgnoreCase))
 {
     var solution = await workspace.OpenSolutionAsync(inputPath);
-    // XXX TODO handle multiple projects
-    project = solution.Projects.First();
+    projects = solution.Projects.ToList();
     Console.WriteLine("!! at the moment, only the first project will be analysed");
 }
 else
 {
-    project = await workspace.OpenProjectAsync(inputPath);
+    var project = await workspace.OpenProjectAsync(inputPath);
+    projects.Add(project);
 }
 
 List<AttributeInstance> attributes = [];
-var analyser = new RoslynAnalyser();
-
-foreach (var document in project.Documents)
+var analyser = new RoslynAnalyser
 {
-    var results = await analyser.AnalyseDocumentAsync(document);
-    attributes.AddRange(results);
+    Annotations = ["RefactorNeeded"]
+};
+
+foreach (var project in projects)
+{
+    foreach (var document in project.Documents)
+    {
+        // XXX TODO include project name / path?
+        var results = await analyser.AnalyseDocumentAsync(document);
+        attributes.AddRange(results);
+    }   
 }
 
 var reportWriter = new GenerateMarkdownReport();

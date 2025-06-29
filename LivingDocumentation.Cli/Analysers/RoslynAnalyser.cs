@@ -6,6 +6,10 @@ namespace LivingDocumentation.Cli.Analysers;
 
 public class RoslynAnalyser : IAnalyseDocument
 {
+    /// <inheritdoc />
+    public required List<string> Annotations { get; set; }
+
+    /// <inheritdoc />
     public async Task<List<AttributeInstance>> AnalyseDocumentAsync(Document document)
     {
         List<AttributeInstance> attributes = [];
@@ -16,8 +20,7 @@ public class RoslynAnalyser : IAnalyseDocument
 
         var candidates = root.DescendantNodes()
             .OfType<AttributeSyntax>()
-            // XXX TODO stop hardcoding RefactorNeeded here, 
-            .Where(attr => attr.Name.ToString().Contains("RefactorNeeded"));
+            .Where(attr => Annotations.Contains(attr.Name.ToString()));
 
         foreach (var attribute in candidates)
         {

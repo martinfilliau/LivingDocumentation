@@ -16,8 +16,14 @@ Simply run `dotnet run X Y` from the project folder, with:
 - [ ] Configure annotations to be used
 - [ ] Use standard `[Obsolete]` attribute
 - [ ] Different output formats (e.g. JSON, CSV...)
+- [ ] Use something like [commandLineParser](https://github.com/commandlineparser/commandline) to parse CLI arguments
 - Optimisation strategies:
   - [ ] Parallel processing of documents (?)
   - [ ] Pre-filter to only analyse files having an annotation (e.g. `File.ReadAllText`)
 - [ ] Pack as a dotnet tool? `dotnet pack` + `dotnet tool install --global --add-source ./nupkg living-documentation` + `living-documentation path/to/project.csproj report.md`
 - [ ] CI: ability to build metrics, flag increase of some annotations?
+
+## Future ideas
+
+- [ ] With DDD related attributes, produce a prompt describing the domain
+- [ ] With DDD related attributes, produce a Mermaid diagram of the domain

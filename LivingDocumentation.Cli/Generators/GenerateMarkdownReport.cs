@@ -14,7 +14,10 @@ public class GenerateMarkdownReport : IGenerateReport
         {
             cancellationToken.ThrowIfCancellationRequested();
             
-            await writer.WriteLineAsync($"## {attribute.Symbol}");
+            await writer.WriteLineAsync($"## {attribute.AttributeName}");
+            // XXX TODO sort, and write attribute name only once
+            
+            await writer.WriteLineAsync($"### {attribute.Symbol}");
             await writer.WriteLineAsync($"- **Reason:** {attribute.Reason}");
             await writer.WriteLineAsync($"- **File:** {attribute.DocumentLocation}\n");
         }
